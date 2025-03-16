@@ -40,12 +40,12 @@ client-server-app
 
 1. Start the server:
    ```
-   node server/index.js
+   npm run start
    ```
 
 2. In a separate terminal, start the client:
    ```
-   node client/index.js
+   npm run client
    ```
 
 ### Usage
