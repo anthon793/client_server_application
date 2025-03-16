@@ -54,4 +54,4 @@ Once both the server and client are running, the client will send a request to t
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License
