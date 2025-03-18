@@ -1,29 +1,35 @@
-import http from 'http';
+import WebSocket from 'ws';
+import readline from 'readline';
 
 const hostname = '127.0.0.1';
 const port = 3000;
+const url = `ws://${hostname}:${port}`;
 
-const options = {
-  hostname: hostname,
-  port: port,
-  path: '/',
-  method: 'GET'
-};
+const ws = new WebSocket(url);
 
-const req = http.request(options, (res) => {
-  let data = '';
-
-  res.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  res.on('end', () => {
-    console.log(`Response from server: ${data}`);
-  });
+ws.on('open', () => {
+  console.log('Connected to the WebSocket server');
+  ws.send('Hello, Server!');
 });
 
-req.on('error', (error) => {
-  console.error(`Problem with request: ${error.message}`);
+ws.on('message', (message) => {
+  console.log(`Received from server: ${message}`);
 });
 
-req.end();
+ws.on('error', (error) => {
+  console.error(`WebSocket error: ${error.message}`);
+});
+
+ws.on('close', () => {
+  console.log('Disconnected from the WebSocket server');
+});
+
+// Setup readline interface for terminal input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on('line', (input) => {
+  ws.send(input);
+});
